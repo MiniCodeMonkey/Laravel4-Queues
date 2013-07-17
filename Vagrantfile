@@ -16,11 +16,11 @@ Vagrant::Config.run do |config|
   config.vm.customize ["modifyvm", :id, "--memory", 512]
 
   # Define hostname to be used with Hostmaster
-  config.vm.host_name = "server.dev"
-  config.hosts.name = "server.dev"
+  config.vm.host_name = "l4queues.local"
+  config.hosts.name = "l4queues.local"
 
   # Use hostonly network with a static IP Address
-  config.vm.network :hostonly, "172.90.90.90"
+  config.vm.network :hostonly, "172.90.90.42"
 
   # Set share folder
   use_nfs = !Kernel.is_windows?
@@ -45,30 +45,31 @@ Vagrant::Config.run do |config|
     chef.add_recipe "dotdeb"
     chef.add_recipe "dotdeb::php54"
     chef.add_recipe "php"
+    chef.add_recipe "beanstalkd"
     chef.json = {
       :misc => {
         # Project name
-        :name           => "server",
+        :name           => "l4queues",
 
         # Name of MySQL database that should be created
-        :db_name        => "dbname",
+        :db_name        => "l4queues",
 
         # Optional database dump to be imported when server is provisioned
         # If the file doesn't exist, it is just ignored
         :db_dump        => "/home/vagrant/shared/dump.sql",
 
         # Server name and alias(es) for Apache vhost
-        :server_name    => "server.dev",
-        :server_aliases => "*.server.dev",
+        :server_name    => "l4queues.local",
+        :server_aliases => "*.l4queues.local",
 
         # Document root for Apache vhost
-        :docroot        => "/home/vagrant/shared/public_html",
+        :docroot        => "/home/vagrant/shared/public",
       },
       :mysql => {
         :server_root_password   => 'root',
         :server_repl_password   => 'root',
         :server_debian_password => 'root',
-        :bind_address           => '172.90.90.90',
+        :bind_address           => '172.90.90.42',
         :allow_remote_root      => true
       }
     }

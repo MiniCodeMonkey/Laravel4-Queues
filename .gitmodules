@@ -25,3 +25,6 @@
 [submodule "cookbooks/postfix"]
 	path = cookbooks/postfix
 	url = https://github.com/opscode-cookbooks/postfix
+[submodule "cookbooks/beanstalkd"]
+	path = cookbooks/beanstalkd
+	url = https://github.com/escapestudios/chef-beanstalkd.git
