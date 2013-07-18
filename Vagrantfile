@@ -71,6 +71,9 @@ Vagrant::Config.run do |config|
         :server_debian_password => 'root',
         :bind_address           => '172.90.90.42',
         :allow_remote_root      => true
+      },
+      :beanstalkd => { # Make sure that beanstalkd starts at boot
+        :start_during_boot      => true
       }
     }
   end

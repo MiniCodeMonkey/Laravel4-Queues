@@ -3,7 +3,9 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.0.*",
+		"pda/pheanstalk": "2.0.*",
+		"fzaninotto/faker": "1.2.*@dev"
 	},
 	"autoload": {
 		"classmap": [
