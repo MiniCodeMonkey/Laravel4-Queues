@@ -1,9 +1,9 @@
 $(function() {
 	$('a.btn').click(function () {
 		// Start background job
-		$.get('/start-geocode', function (response) {
+		$.get('/start', function (response) {
 			if (response.success) {
-				$("#status-section").show();
+				$("#status-section").slideDown();
 				// Start update timer
 				setTimeout(updateStatus, 100);
 			}
@@ -22,6 +22,8 @@ function updateStatus() {
 		// Update again if we're not done
 		if (response.progress < 100.0) {
 			setTimeout(updateStatus, 100);
+		} else {
+			$("#status-section").slideUp();
 		}
 	});
 }

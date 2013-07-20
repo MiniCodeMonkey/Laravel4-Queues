@@ -11,15 +11,15 @@
 |
 */
 
-function updateProgress($message, $progress) {
-	Cache::put('queue:message', $message, 30);
-	Cache::put('queue:progress', $progress, 30);
-}
-
 Route::get('/', function()
 {
 	return View::make('index');
 });
+
+function updateProgress($message, $progress) {
+	Cache::put('queue:message', $message, 30);
+	Cache::put('queue:progress', $progress, 30);
+}
 
 Route::get('start', function()
 {
@@ -27,52 +27,6 @@ Route::get('start', function()
 	updateProgress('', 0);
 
 	Queue::push(function($job) {
-		updateProgress('Just started', 5);
-		sleep(1);
-
-		updateProgress('Going to sleep', 10);
-		sleep(5);
-
-		updateProgress('Done sleeping', 50);
-		sleep(5);
-		
-		updateProgress('Done!', 100);
-
-		$job->delete();
-	});
-
-	return Response::json(array('success' => true));
-});
-
-Route::get('start-identity', function()
-{
-	// Reset parameters
-	updateProgress('', 0);
-
-	Queue::push(function($job) {
-		$faker = Faker\Factory::create();
-
-		for ($i = 1; $i < 20; $i++) {
-			updateProgress('Generating identity for ' . $faker->name, $i / 20 * 100);
-			sleep(1);
-		}
-
-		updateProgress('Done!', 100);
-
-		$job->delete();
-	});
-
-	return Response::json(array('success' => true));
-});
-
-Route::get('start-geocode', function()
-{
-	// Reset parameters
-	updateProgress('', 0);
-
-	Queue::push(function($job) {
-		$faker = Faker\Factory::create();
-
 		for ($i = 1; $i < 30; $i++) {
 			$loc = mt_rand(0, 9000) / 100 .','. mt_rand(-18000, 18000) / 100;
 			$response = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='. $loc .'&sensor=false'));
